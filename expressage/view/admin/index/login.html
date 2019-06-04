@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>后台登录</title>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/admin/css/login.css" />
+	</head>
+
+    <body>
+        <div class="m-login-bg">
+            <div class="m-login">
+                
+                <div class="m-login-warp">
+                    <img src="../../static/logo.png" style="width:100%;margin-bottom:10px;" />
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <input type="text" name="username" required lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-item">
+                            <input type="password" name="password" required lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-item m-login-btn">
+                            <button style="width:100%" class="layui-btn layui-btn-normal" type="button" lay-submit lay-filter="login">登录</button>
+                        </div>
+                    </form>
+                </div>
+                <p class="copyright">Copyright 2019 by 小源</p>
+            </div>
+        </div>
+        <script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../static/admin/js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            layui.use(['form', 'layedit', 'laydate'], function () {
+                var form = layui.form(),
+                    layer = layui.layer;
+
+
+                //自定义验证规则
+                form.verify({
+                    username: function (value) {
+                        if (value.length < 5) {
+                            return '用户名至少得5个字符啊';
+                        }
+                    },
+                    password: [/(.+){6,12}$/, '密码必须6到12位'],
+                });
+
+
+                //监听提交
+                form.on('submit(login)', function (data) {
+                    var index = layer.load();
+                    $.ajax({
+                        type: 'POST',
+                        url: '../../../controller/login.aspx',//发送请求
+                        data: data.field,
+                        dataType: 'JSON',
+                        success: function (res) {
+                            layer.close(index);
+                            if (res.code == 200) {
+                                window.location.href = "./index.html";
+                            } else {
+                                layer.open({
+                                    content: res.msg
+                                });
+                            }
+                        }
+                    });
+                    return false;
+                });
+
+            });
+        </script>
+    </body>
+
+</html>

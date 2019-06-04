@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="orderDel.aspx.cs" Inherits="expressage.controller.orderDel" %>
