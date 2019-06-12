@@ -2,11 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using ymcore.lib;
-namespace ymcore.model
+using ymlib;
+namespace ymlib
 {
     public class ModelBase
     {
@@ -106,6 +107,21 @@ namespace ymcore.model
         private string createSql()
         {
             return "SELECT * FROM ["+this.TableName+"] where "+this.filed+" = '"+this.value+"'";
+        }
+
+        public DataSet GetDateSet()//查询数据库，得到数据集
+        {
+            SqlDataAdapter dataAdapter = db.getSqlDataAdapter(this.createSql());
+            DataSet dataSet = new DataSet();
+            dataAdapter.Fill(dataSet);//填充数据集
+            if (dataSet.Tables[0].Rows.Count != 0)
+            {
+                return dataSet;//若找到相应数据，则返回数据集
+            }
+            else
+            {
+                return null;//若没有找到相应数据集，返回空值
+            }
         }
 
         public string returnJson(int code,string msg,object data)

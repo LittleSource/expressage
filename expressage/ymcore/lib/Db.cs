@@ -5,9 +5,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ymcore.config;
 
-namespace ymcore.lib
+namespace ymlib
 {
     class Db
     {
